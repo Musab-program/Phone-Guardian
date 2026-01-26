@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math' as Math;
+import 'dart:math' as math; // Fix 1: Lowercase prefix
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,10 +10,13 @@ class BleController extends GetxController {
   static const String targetDeviceName = "ESP32";
 
   // RSSI & Safety Constants
-  static const int _smaSize = 5;
+  static const int _smaSize = 10; // Matched to ESP32 numReadings
   final List<int> _rssiBuffer = [];
   int _farCount = 0;
   static const int _farThreshold = 3;
+
+  // State
+  final RxInt currentThreshold = (-75).obs; // Dynamic Threshold
 
   // State
   final RxBool isScanning = false.obs;
@@ -144,7 +147,8 @@ class BleController extends GetxController {
     _scanSubscription = FlutterBluePlus.scanResults.listen((results) {
       for (ScanResult r in results) {
         if (r.device.platformName == targetDeviceName ||
-            r.device.name == targetDeviceName) {
+            r.device.platformName == targetDeviceName) {
+          // Fix 2: Use platformName
           FlutterBluePlus.stopScan();
           statusMessage.value = "تم العثور عليه! جاري الاتصال...";
           _connectToDevice(r.device);
@@ -195,7 +199,8 @@ class BleController extends GetxController {
       });
     } catch (e) {
       statusMessage.value = "Connection Failed";
-      print("Connection Error: $e");
+      // Fix 3: Remove print or use debugPrint/log if needed. Removing for clean production code.
+      Get.log("Connection Error: $e");
       _scanForDevice();
     }
   }
@@ -209,12 +214,12 @@ class BleController extends GetxController {
           if (characteristic.properties.write ||
               characteristic.properties.writeWithoutResponse) {
             writeCharacteristic = characteristic;
-            print("Write Characteristic Found: ${characteristic.uuid}");
+            Get.log("Write Characteristic Found: ${characteristic.uuid}");
           }
         }
       }
     } catch (e) {
-      print("Service Discovery Error: $e");
+      Get.log("Service Discovery Error: $e");
     }
   }
 
@@ -225,7 +230,9 @@ class BleController extends GetxController {
     _farCount = 0;
     _rssiTimer?.cancel();
 
-    _rssiTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _rssiTimer = Timer.periodic(const Duration(milliseconds: 500), (
+      timer,
+    ) async {
       if (isDeviceConnected.value &&
           FlutterBluePlus.adapterStateNow == BluetoothAdapterState.on) {
         try {
@@ -236,7 +243,7 @@ class BleController extends GetxController {
             int currentAvg =
                 _rssiBuffer.reduce((a, b) => a + b) ~/ _rssiBuffer.length;
             if (rawRssi < -95 && currentAvg > -80) {
-              print("BleController: Ignored Spike $rawRssi");
+              Get.log("BleController: Ignored Spike $rawRssi");
               return;
             }
           }
@@ -250,14 +257,21 @@ class BleController extends GetxController {
           // 3. Convert to Meters
           // Formula: d = 10 ^ ((Measured Power - RSSI) / (10 * N))
           // Measured Power @ 1m: -59, N: 2.5
-          double dist = Math.pow(
-            10,
-            ((-59 - smoothedRssi) / (10 * 2.5)),
-          ).toDouble();
+          double dist = math
+              .pow(
+                // Updated prefix
+                10,
+                ((-59 - smoothedRssi) / (10 * 2.5)),
+              )
+              .toDouble();
           estimatedDistance.value = double.parse(dist.toStringAsFixed(1));
 
           // 4. Smart Safety Status (Debounce)
-          if (smoothedRssi < -75) {
+          // Add Safety Margin (+5) to make App slightly more sensitive than ESP32
+          // This ensures the App turns RED *before* or *at the same time* the motor vibrates.
+          int effectiveThreshold = currentThreshold.value + 5;
+
+          if (smoothedRssi < effectiveThreshold) {
             _farCount++;
           } else {
             _farCount = 0;
@@ -268,7 +282,7 @@ class BleController extends GetxController {
             isSafe.value = false;
           }
         } catch (e) {
-          print("RSSI Read Error: $e");
+          Get.log("RSSI Read Error: $e");
         }
       } else {
         timer.cancel();
@@ -284,18 +298,34 @@ class BleController extends GetxController {
 
   Future<void> sendCommand(String command) async {
     if (writeCharacteristic == null) {
-      print("Not connected or Write Characteristic not found");
+      Get.log("Not connected or Write Characteristic not found");
       return;
     }
 
     try {
       await writeCharacteristic!.write(command.codeUnits);
     } catch (e) {
-      print("Write Error: $e");
+      Get.log("Write Error: $e");
     }
   }
 
   void setDistance(int distance) {
+    // Calculate expected threshold based on distance (Logic from ESP32 Code)
+    // 1 -> -65, 2 -> -75, etc. approximate mapping if needed,
+    // OR just rely on the same calculation for consistency.
+    // ESP32 Logic: rssiThreshold = -55 - (val * 10) for val <= 10
+
+    int newThreshold = -75; // Default fallback
+    if (distance > 0 && distance <= 10) {
+      newThreshold = -55 - (distance * 10);
+    } else {
+      // Should not happen with slider but safe fallback
+      newThreshold = -1 * distance;
+    }
+
+    currentThreshold.value = newThreshold;
+    Get.log("App Threshold Updated: $newThreshold for Distance: $distance");
+
     sendCommand("SET_DISTANCE:$distance");
   }
 
