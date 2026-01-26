@@ -8,7 +8,8 @@
 
 |                          الشاشة الرئيسية (Home)                          |                            البحث عن الجهاز (Scanning)                            |                         حالة الخطر (Alert State)                          |
 | :----------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
-| ![Home Screenshot]() | ![Scanning Screenshot](https://via.placeholder.com/300x600?text=Scanning+Screen) | ![Alert Screenshot](https://via.placeholder.com/300x600?text=Alert+State) |
+| ![Home Screenshot]() | ![Uploading Screenshot_20260125-152021_Gallery.jpg…]()
+ | ![Alert Screenshot](https://via.placeholder.com/300x600?text=Alert+State) |
 
 > [!NOTE]
 > يرجى استبدال الروابط أعلاه بصور حقيقية من التطبيق للحصول على توثيق أفضل.
@@ -87,4 +88,5 @@ phone_guardian/
 ---
 
 **تم التطوير بواسطة: Musab**
+
 
