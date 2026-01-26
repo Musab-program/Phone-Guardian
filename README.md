@@ -8,7 +8,7 @@
 
 |                                                            الشاشة الرئيسية (Home)                                                            |                                                            البحث عن الجهاز (Scanning)                                                            |                                                           حالة الخطر (Alert State)                                                            |
 | :------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: |
-| ![Home Screenshot](file:///C:/Users/Musab/.gemini/antigravity/brain/f0461cdc-0e84-4d12-bdf5-ec185d6b2031/uploaded_media_1_1769418585875.jpg) | ![Scanning Screenshot](file:///C:/Users/Musab/.gemini/antigravity/brain/f0461cdc-0e84-4d12-bdf5-ec185d6b2031/uploaded_media_2_1769418585875.jpg) | ![Alert Screenshot](file:///C:/Users/Musab/.gemini/antigravity/brain/f0461cdc-0e84-4d12-bdf5-ec185d6b2031/uploaded_media_0_1769418585875.jpg) |
+|  | ![Scanning Screenshot](file:///C:/Users/Musab/.gemini/antigravity/brain/f0461cdc-0e84-4d12-bdf5-ec185d6b2031/uploaded_media_2_1769418585875.jpg) | ![Alert Screenshot](file:///C:/Users/Musab/.gemini/antigravity/brain/f0461cdc-0e84-4d12-bdf5-ec185d6b2031/uploaded_media_0_1769418585875.jpg) |
 
 ---
 
@@ -84,3 +84,4 @@ phone_guardian/
 ---
 
 **تم التطوير بواسطة: Musab**
+
