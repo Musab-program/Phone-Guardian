@@ -6,9 +6,9 @@
 
 ## 📸 نظرة على التطبيق (App Screenshots)
 
-|                الشاشة الرئيسية (Home)                 |                  البحث عن الجهاز (Scanning)                   |                حالة الخطر (Alert State)                 |
-| :---------------------------------------------------: | :-----------------------------------------------------------: | :-----------------------------------------------------: |
-| ![Home Screenshot](./lib/assets/screenshots/home.jpg) | ![Scanning Screenshot](./lib/assets/screenshots/scanning.jpg) | ![Alert Screenshot](./lib/assets/screenshots/alert.jpg) |
+|                 الشاشة الرئيسية (Home)                  |                 البحث عن الجهاز (Scanning)                  |                 حالة الخطر (Alert State)                 |
+| :-----------------------------------------------------: | :---------------------------------------------------------: | :------------------------------------------------------: |
+| <img src="lib/assets/screenshots/home.jpg" width="200"> | <img src="lib/assets/screenshots/scanning.jpg" width="200"> | <img src="lib/assets/screenshots/alert.jpg" width="200"> |
 
 ---
 
