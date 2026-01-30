@@ -10,6 +10,7 @@
 | :-----------------------------------------------------: | :---------------------------------------------------------: | :------------------------------------------------------: |
 | <img src="lib/assets/screenshots/home.jpg" width="200"> | <img src="lib/assets/screenshots/scanning.jpg" width="200"> | <img src="lib/assets/screenshots/alert.jpg" width="200"> |
 
+| ![Home Screenshot](https://raw.githubusercontent.com/Musab-program/Phone-Guardian/master/lib/assets/screenshots/home.jpg) | ![Scanning Screenshot](https://raw.githubusercontent.com/Musab-program/Phone-Guardian/master/lib/assets/screenshots/scanning.jpg) | ![Alert Screenshot](https://raw.githubusercontent.com/Musab-program/Phone-Guardian/master/lib/assets/screenshots/alert.jpg) |
 ---
 
 ## ✨ المميزات (Features)
